@@ -27,7 +27,7 @@ A user could have a forgotten iPad sitting at home that occasioannly wakes up to
 
 Event log correlation would need to dig through all of these events in addition to the actual incorrect password attempts that could indicate password guessing. For example, in a five minute window, there might be 2,000 bad passwords but only 50 are truly incorrect passwords that increase the badPwdCount attribute. Out of those 50, maybe 30 of those users immediately followed the logon failure with a successful logon, resetting their badPwdCount back to zero, leaving us with 20. A SIEM will need to look at all 2,000 failures and try to detect a pattern but we will only look at 20.
 
-![header image](https://raw.github.com/bda72/DetectPasswordSpray/blob/master/email_example.png)
+![](./master/email_example.png)
 
 So, for the purpose of this script, we only care about bad password attempts that increase the badPwdCount attribute. In addition, we only care if those users have a value in the badPasswordTime attribute in the past X minutes. And we don't care about the badPasswordTime attribute by itself. If a user has a recent time in badPasswordTime but no current vaue in badPwdCount, it was likely an innocent mistake and they have since logged in successfully.
 
