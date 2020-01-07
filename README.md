@@ -9,7 +9,7 @@ Password spraying is traditionally detected by correlating event logs. You send 
  
 This script is not meant as a replacement for event log correlation but instead offers an alternative method. The connection of the badPwdCount and badPasswordTime AD attributes to password spraying is not new information and is often mentioned in blog posts on the subject. However, they tend to be mentioned as an explanation of how you get caught by locking out accounts. I did some searches and didn't see an examples of anyone specifically using those atributes as a method to detect potential password spraying so I decided to create this script.
 
-# Why it works:
+# Why it works
 
 A failed login due to a bad password is logged as an event in the security log. But all bad password failures are not necessarily equal. For example, a user not updating thier previous password on a mobile device will flood the security logs with failed logins but do we really care about those failures? We obviously care but only because the user will not be able to get email until the password is updated. It may be useful to generate an alert to the helpdesk based on the sheer volume of failed logins but there is likely no security concern.
 
@@ -19,7 +19,7 @@ What happens when a user (or attacker) enters an incorrect password that is not 
 
 An attacker never wants to lock the account as that would attract unwanted scrutiny. Even an admin with no monitoring in place would dig deeper if a VIP continously got locked out and might connect the dots for a group of AD accounts being locked out at the exact same time. To avoid lockouts, an attacker will try one or two passwords against a number of accounts and then wait for the badPwdCount to reset before trying again. If they are careful and patient, this could potentially go on forever without detection.
 
-# How it works:
+# How it works
 
 The badPwdCount attribute gives us a way to determine a high number of login failures across multiple user accounts due to a bad password while excluding the many users not updating their old password on a device. A large domain could have tens or even hundreds of thousands of bad password attempts every day, with the overwhelming majority likely due to users changing their password but not updating their previous password on devices. 
 
@@ -33,7 +33,7 @@ If your defined threshold is crossed, an email alert will be sent. A CSV file of
 
 So, for the purpose of this script, we only care about bad password attempts that increase the badPwdCount attribute. In addition, we only care if those users have a value in the badPasswordTime attribute in the past X minutes. And we don't care about the badPasswordTime attribute by itself. If a user has a recent time in badPasswordTime but no current vaue in badPwdCount, it was likely an innocent mistake and they have since logged in successfully.
 
-# Tuning the script:
+# Tuning the script
 
 There could be a number of users that have a bad password count at any given time and that by itself is not a reason for concern. Users will occasionally enter an incorrect password which increases the badPwdCount attribute and then quickly reset it to '0' by successfully logging in. 
 
