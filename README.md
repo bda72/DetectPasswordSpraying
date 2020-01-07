@@ -31,7 +31,7 @@ Results are written to a CSV file and the count is added to a text file that rol
 
 ![](./log_example.png)
 
-If your defined threshold is crossed, an email alert will be sent. A CSV file of the data contained in the email body will be attached as well as a log of that day's counts for reference. In the example below, the threshold was lowered to '1' but, based on the values of the badPasswordTime attributes, this would likely not indicate password spraying. We would expect the times to be within a few seconds of each other.
+If your defined threshold is crossed, an email alert will be sent. The CSV file of the data contained in the email body will be attached as well as a log of that day's counts for reference. In the example below, the threshold was lowered to '1' but, based on the values of the badPasswordTime attributes, this would likely not indicate password spraying. We would expect the times to be within a few seconds of each other.
 
 ![](./email_example.png)
 
