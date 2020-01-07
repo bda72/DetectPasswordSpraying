@@ -1,6 +1,10 @@
 # DetectPasswordSpraying
 A script to detect a potential password spraying attack using AD attributes, log the results and send an email alert if a threshold is crossed.
 
+# Quick Start
+
+Download the .ps1 file and place it in a folder. Modify the GLOBALS section to refelect your environement. See the 'Tuning the script' section below. Schedule the script to run as a scheduled task every X minutes.
+
 # Background:
 
 Password spraying is the act of taking what would be considered a common password (P@ssw0rd!) and testing it against multiple accounts. Then you repeat this process with a second common password and so on. If you do this enough times against enough users, there is a decent likelihood that at least one of the users will be using one of those common passwords.
@@ -27,7 +31,7 @@ A user could have a forgotten iPad sitting at home that occasioannly wakes up to
 
 Event log correlation would need to dig through all of these events in addition to the actual incorrect password attempts that could indicate password guessing. For example, in a five minute window, there might be 2,000 bad passwords but only 50 are truly incorrect passwords that increase the badPwdCount attribute. Out of those 50, maybe 30 of those users immediately followed the logon failure with a successful logon, resetting their badPwdCount back to zero, leaving us with 20. A SIEM will need to look at all 2,000 failures and try to detect a pattern but we will only look at 20.
 
-Results are written to a CSV file and the count is added to a text file that rolls over each day.
+Results are written to a CSV file and the count is added to a text file that rolls over each day. There is a section at the end of the script to cleanup the log folder.
 
 ![](./log_example.png)
 
