@@ -27,7 +27,7 @@ A user could have a forgotten iPad sitting at home that occasioannly wakes up to
 
 Event log correlation would need to dig through all of these events in addition to the actual incorrect password attempts that could indicate password guessing. For example, in a five minute window, there might be 2,000 bad passwords but only 50 are truly incorrect passwords that increase the badPwdCount attribute. Out of those 50, maybe 30 of those users immediately followed the logon failure with a successful logon, resetting their badPwdCount back to zero, leaving us with 20. A SIEM will need to look at all 2,000 failures and try to detect a pattern but we will only look at 20.
 
-If your defined threshold is crossed, an email alert will be sent. A CSV file of the data contained in the email body will be attached as well as a log of that day's counts for reference.
+If your defined threshold is crossed, an email alert will be sent. A CSV file of the data contained in the email body will be attached as well as a log of that day's counts for reference. In the example below, the threshold was lowered to '1' but, based on the values of the badPasswordTime attributes, this would likely not indicate password spraying. We would expect the times to be within a few seconds of each other.
 
 ![](./email_example.png)
 
