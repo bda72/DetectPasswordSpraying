@@ -61,7 +61,7 @@ You may wish to schedule two copies of the script with different thresholds. Let
 
 # Caveats
 
-Will this script always detect a password spraying attempt? Of course not. Nothing is foolproof, including an expensive SIEM product. This detection method could be avoided by an attacker trying a very low number of user accounts, only during business hours and spreading them out a few minutes apart at random intervals.
+Will this script always detect a password spraying attempt? Of course not. Nothing is foolproof, including an expensive SIEM product. This detection method could be avoided by an attacker targeting a low number of user accounts, only during business hours and spreading each attempt out a few minutes apart at random intervals.
 
 Setting a threshold becomes much more difficult at a larger company, especially if you have a culture that has zero tolerance for an occasional false alarm (and we obviously all hate false alarms). For example, if the quantity of users with a current value in badPwdCount jumps from 3 to 8 to 16 to 2 to 6, etc. in each 5-minute check and your threshold is set to 20, you could easily miss a small password spraying attack against only your C-level employees.
 
@@ -75,7 +75,7 @@ Assuming it even caught the attack, a managed service might send you a pretty re
 
 Based on badPasswordTime, you need to find the events in the security log to get the source. Did the failed logons all come from the same source? Did they come from a public web site like OWA? Did they come from ADFS? Did they come an RDP server exposed to the internet? Or worse, did they come from an internal source?
 
-My advice is to think about what you can do to gather this info before an incident happens. Look at one of the 'good' CSV files with only a few entries. Can you find those events on the PDC Emulator to get the source? If the threshold is tripped at 10PM on Friday, is your security log size large enough that the events will still be there Monday morning? If the source is an ADFS or Exchange server, do you have auditing enabled on those servers and the event log sized properly?
+My advice is to think about what you can do to gather this info before an incident happens. Look at one of the 'good' CSV files with one or maybe a few entries. Can you find those events on the PDC Emulator to get the source? If the threshold is tripped at 10PM on Friday, is your security log size large enough that the events will still be there Monday morning? If the source is an ADFS or Exchange server, do you have auditing enabled on those servers and the event log sized properly?
 
 The most efficient solution is to proactively collect the logs using an event log collector or a low-cost commercial product like ADAudit Plus. The logs will be there waiting for you and they will be searchable. Another benefit is being able to quickly search for any successful logons at the exact same time from the same source(s), indicating an account was potentially compromised.
 
