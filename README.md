@@ -5,7 +5,7 @@ A script to detect a potential password spraying attack using AD attributes, log
 
 Download the .ps1 file and place it in a folder. Modify the GLOBALS section to reflect your environment. See the 'Tuning the script' section below. Schedule the script to run as a scheduled task every X minutes.
 
-# Background:
+# Background
 
 Password spraying is the act of taking what would be considered a common password (P@ssw0rd!) and testing it against multiple accounts. Then you repeat this process with a second common password and so on. If you do this enough times against enough users, there is a decent likelihood that at least one of the users will be using one of those common passwords.
  
@@ -61,22 +61,22 @@ You may wish to schedule two copies of the script with different thresholds. Let
 
 # Caveats
 
-Will this script always detect a password spraying attempt? Of course not. Nothing is foolproof, including an expensive SIEM product. This detection method could be avoided by an attacker targeting a low number of user accounts, only during business hours and spreading each attempt out a few minutes apart at random intervals.
+Will this script always detect a password spraying attempt? Of course not. Nothing is foolproof, including an expensive SIEM product. This detection method could be avoided by an attacker targeting a low number of user accounts, only during business hours (when your threshold would be set higher) and spreading each attempt out a few minutes apart at random intervals.
 
-Setting a threshold becomes much more difficult at a larger company, especially if you have a culture that has zero tolerance for an occasional false alarm (and we obviously all hate false alarms). For example, if the quantity of users with a current value in badPwdCount jumps from 3 to 8 to 16 to 2 to 6, etc. in each 5-minute check and your threshold is set to 20, you could easily miss a small password spraying attack against only your C-level employees.
+Also, setting a threshold becomes much more difficult at a larger company, especially if you have a culture that has zero tolerance for an occasional false alarm (and we all hate false alarms). For example, if an average sample of the quantity of users with a current value in badPwdCount looks like 3, 8, 16, 12, 6, etc. in each 5-minute check and your threshold is set to 20, you could easily miss a small password spraying attack against only your C-level employees.
 
 # Incident response
 
 You just got an alert email that 100 users have a badPwdCount of at least '1' within the past five minutes. The email body and CSV file show most or all the badPasswordTime attributes are within a few seconds of each other. Unless you have some automated process that is failing, that is almost certainly password spraying.
 
-Now what? I can point you in the right direction, but this topic is well beyond the scope of this document. Every domain is different regarding audit settings, GPOs, event log sizes, commercial tools, custom in-house scripts/apps, etc. and every admin has a different level of experience and skills.
+What are the next steps? I can point you in the right direction, but this topic is beyond the scope of this document. Every domain is different regarding audit settings, GPOs, event log sizes, commercial tools, custom in-house scripts/apps, etc. and every admin has a different level of experience and skills.
 
-Assuming it even caught the attack, a managed service might send you a pretty report that there was a password spraying attack on 10/13/2019 from 10:25:34-10:25:36, the source IP is 10.1.12.13, the source country is Ukraine and no accounts were compromised. However, without such a tool, we need to figure all of this out by ourselves.
+Assuming it even caught the attack, a managed service might send you a pretty report that there was a password spraying attack on 10/13/2019 from 10:25:34-10:25:36, the source IP is 10.1.12.13, the source country is Ukraine and no accounts were compromised. However, without paying for such a service, we need to figure all of this out by ourselves.
 
 Based on badPasswordTime, you need to find the events in the security log to get the source. Did the failed logons all come from the same source? Did they come from a public web site like OWA? Did they come from ADFS? Did they come an RDP server exposed to the internet? Or worse, did they come from an internal source?
 
-My advice is to think about what you can do to gather this info before an incident happens. Look at one of the 'good' CSV files with one or maybe a few entries. Can you find those events on the PDC Emulator to get the source? If the threshold is tripped at 10PM on Friday, is your security log size large enough that the events will still be there Monday morning? If the source is an ADFS or Exchange server, do you have auditing enabled on those servers and the event log sized properly?
+My advice is to think about what you can do to gather this info before an incident happens. There is nothing more frustrating than knwoing you were attacked but not being able to gather any details in an investigation. Look at one of the 'good' CSV files with one or maybe a few entries. Can you find those events on the PDC Emulator to get the source? If the threshold is tripped at 10PM on Friday, is your security log size large enough that the events will still be there Monday morning? If the source is an ADFS or Exchange server, do you have auditing enabled on those servers and the event log sized properly?
 
-The most efficient solution is to proactively collect the logs using an event log collector or a low-cost commercial product like ADAudit Plus. The logs will be there waiting for you and they will be searchable. Another benefit is being able to quickly search for any successful logons at the exact same time from the same source(s), indicating an account was potentially compromised.
+The most efficient solution is to proactively collect the logs using event log collection solution, a SIEM or a low-cost commercial product like ADAudit Plus. The logs will be there waiting for you and they will be searchable. Another benefit is being able to quickly search for any successful logons at the exact same time from the same source(s), indicating an account was likely compromised. 
 
 
