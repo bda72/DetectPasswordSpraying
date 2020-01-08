@@ -3,7 +3,7 @@ A script to detect a potential password spraying attack using AD attributes, log
 
 # Quick Start
 
-Download the .ps1 file and place it in a folder. Modify the GLOBALS section to reflect your environment. See the 'Tuning the script' section below. Schedule the script to run as a scheduled task every X minutes.
+Download the .ps1 file and place it in a folder. Modify the GLOBALS section to reflect your environment. See the 'Setting a threshold' section below. Set an initial low threshold to purposely trigger an alert for testing. Schedule the script to run as a scheduled task every X minutes.
 
 # Background
 
@@ -41,7 +41,7 @@ If your defined threshold is crossed, an email alert will be sent. The CSV file 
 
 So, for the purpose of this script, we only care about bad password attempts that increase the badPwdCount attribute. In addition, we only care if those users have a value in the badPasswordTime attribute in the past X minutes. And we don't care about the badPasswordTime attribute by itself. If a user has a recent time in badPasswordTime but no current value in badPwdCount, it was likely an innocent mistake and they have since logged in successfully.
 
-# Tuning the script
+# Setting a threshold
 
 There could be several users that have a bad password count at any given time and that by itself is not a reason for concern. Users will occasionally enter an incorrect password which increases the badPwdCount attribute and then quickly reset it to '0' by successfully logging in. 
 
