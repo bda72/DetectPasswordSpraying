@@ -3,7 +3,7 @@ A script to detect a potential password spraying attack using AD attributes, log
 
 # Quick Start
 
-Download the .ps1 file and place it in a folder. Modify the GLOBALS section to reflect your environment. See the 'Setting a threshold' section below. Set an initial low threshold to purposely trigger an alert for testing. Schedule the script to run as a scheduled task every X minutes.
+Download the .ps1 file and place it in a folder. Modify the GLOBALS section to reflect your environment. See the 'Setting a threshold' section below. Schedule the script to run as a scheduled task every X minutes.
 
 # Background
 
@@ -45,7 +45,7 @@ So, for the purpose of this script, we only care about bad password attempts tha
 
 There could be several users that have a bad password count at any given time and that by itself is not a reason for concern. Users will occasionally enter an incorrect password which increases the badPwdCount attribute and then quickly reset it to '0' by successfully logging in. 
 
-In addition to logging the users with a current bad password count, the script writes a second log file, rotating daily, of how many users were found. I would suggest setting the initial threshold to a high number like '100' and letting it run for a few days or weeks to get an idea of how many users it returns on average as well as find the highest number. I would also suggest not configuring the SMTP variables yet to ensure we don't generate any alerts while gathering stats. 
+In addition to logging the users with a current bad password count, the script writes a second log file, updated at each run and rotated daily, of how many users were found. I did this so to make it easier to look for patterns. I would suggest setting the initial threshold to a high number like '100', letting it run for a few days or weeks and then check the log to get an idea of how many users it returns on average as well as find the highest number. I would also suggest not configuring the SMTP variables yet to ensure we don't generate any alerts while gathering stats. 
 
 Next, we need to decide how low we can set the alert threshold so we don't get false alarms. For a small company, this script will likely return '0' or ‘1’ users most of the time and maybe '2' users on rare occasions. In that scenario, you might set the alert threshold from '3' to '5'. If the alert emails only go to a lone admin, you might want to be aggressive and set it to '3', knowing there will likely be an occasional false alarm.
 
