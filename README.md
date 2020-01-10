@@ -83,8 +83,7 @@ The most efficient solution is to proactively collect the logs using event log c
 
 Can you hit the PDC emulator?
 
-```javascript
+```powershell
 Get-ADDomain | Select-Object -ExpandProperty PDCEmulator
-```
 ```
 
