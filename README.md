@@ -79,4 +79,12 @@ My advice is to think about what you can do to gather this info before an incide
 
 The most efficient solution is to proactively collect the logs using event log collection solution, a SIEM or a low-cost commercial product like ADAudit Plus. The logs will be there waiting for you and they will be searchable. Another benefit is being able to quickly search for any successful logons at the exact same time from the same source(s), indicating an account was likely compromised. 
 
+# Troubleshooting
+
+Can you hit the PDC emulator?
+
+```javascript
+Get-ADDomain | Select-Object -ExpandProperty PDCEmulator
+```
+```
 
