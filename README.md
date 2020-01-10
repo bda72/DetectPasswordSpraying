@@ -81,11 +81,11 @@ The most efficient solution is to proactively collect the logs using event log c
 
 # Troubleshooting
 
-Can you hit the PDC emulator?
+Can you hit the PDC emulator? Only the PDC emulator holds a copy of all logon failures. Each DC only holds their own logon failures so you would need to poll every DC if you don't hit the PDC emulator.
 ```powershell
 Get-ADDomain | Select-Object -ExpandProperty PDCEmulator
 ```
-If you get an error about Active Direcotry Web Services, you may need to either install or enable and start the ADWS service.
+If you get an error about Active Directory Web Services, you may need to either install or enable and start the ADWS service on the DC that holds the PDC role.
 
 If you purposely failed a login on a user and still return no results, verify in AD Users & Computers that the user has a non-zero value in badPwdCount and the badPasswordTime is within your time range. Try this snippet to return all users with a badPwdCount value in the past 30 minutes:
 ```powershell
