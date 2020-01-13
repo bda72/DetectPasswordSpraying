@@ -97,7 +97,7 @@ Use this snippet and cycle through your domain controllers by changing the $DC v
 ```powershell
 $Minutes = 30 #how far back to include bad password counts
 $CurrDate = (Get-Date).AddMinutes(-$minutes).ToFileTime()
-$DC = DCSERVER01  #replace with your DC name
+$DC = "DCSERVER01"  #replace with your DC name
 
 Get-ADUser -Filter "(badPwdCount -ge '1') -AND (badPasswordTime -ge $CurrDate)" -Properties badPwdCount,badPasswordTime -Server $DC `
  | Select Name,badPwdCount,@{n='badPasswordTime';e={[DateTime]::FromFileTime($_.badPasswordTime)}} | Sort badPasswordTime -Descending
