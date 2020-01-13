@@ -95,6 +95,8 @@ Get-ADUser -Filter "(badPwdCount -ge '1') -AND (badPasswordTime -ge $CurrDate)" 
  | Select Name,badPwdCount,@{n='badPasswordTime';e={[DateTime]::FromFileTime($_.badPasswordTime)}} | Sort badPasswordTime -Descending
 ```
 
+![](./badPwdCount_PS_example.png)
+
 Can the script hit the PDC emulator? Only the PDC emulator holds a copy of all logon failures. Each DC only holds their own logon failures so you would need to poll every DC if you don't hit the PDC emulator.
 
 Use this snippet and cycle through your domain controllers by changing the $DC variable.
