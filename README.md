@@ -102,7 +102,7 @@ $DC = DCSERVER01  #replace with your DC name
 Get-ADUser -Filter "(badPwdCount -ge '1') -AND (badPasswordTime -ge $CurrDate)" -Properties badPwdCount,badPasswordTime -Server $DC `
  | Select Name,badPwdCount,@{n='badPasswordTime';e={[DateTime]::FromFileTime($_.badPasswordTime)}} | Sort badPasswordTime -Descending
 ```
-If you get an error about Active Directory Web Services, you may need to either install or enable and start the ADWS service on the DC that holds the PDC role.
+If you get an error about Active Directory Web Services, you may need to install ADWS or, if it is already installed, enable and start the ADWS service on the DC that holds the PDC role.
 
 ![](./ADWS_example.png)
 
