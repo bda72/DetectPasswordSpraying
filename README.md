@@ -81,7 +81,11 @@ The most efficient solution is to proactively collect the logs using event log c
 
 # Troubleshooting
 
-If you purposely failed a login on a user and still return no results, verify in AD Users & Computers that the user has a non-zero value in badPwdCount and the badPasswordTime is within your time range. Try this snippet to return all users with a badPwdCount value in the past 30 minutes:
+If you purposely failed a login on a user and still return no results, verify in AD Users & Computers that the user has a non-zero value in badPwdCount and the badPasswordTime is within your time range. 
+
+![](./badPwdCount_example.png)
+
+Try this snippet to return all users with a badPwdCount value in the past 30 minutes:
 ```powershell
 $Minutes = 30 #how far back to include bad password counts
 $CurrDate = (Get-Date).AddMinutes(-$minutes).ToFileTime()
