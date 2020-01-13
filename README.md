@@ -91,10 +91,20 @@ Get-ADUser -Filter "(badPwdCount -ge '1') -AND (badPasswordTime -ge $CurrDate)" 
  | Select Name,badPwdCount,@{n='badPasswordTime';e={[DateTime]::FromFileTime($_.badPasswordTime)}} | Sort badPasswordTime -Descending
 ```
 
-Can you hit the PDC emulator? Only the PDC emulator holds a copy of all logon failures. Each DC only holds their own logon failures so you would need to poll every DC if you don't hit the PDC emulator.
+Can the script hit the PDC emulator? Only the PDC emulator holds a copy of all logon failures. Each DC only holds their own logon failures so you would need to poll every DC if you don't hit the PDC emulator.
+
+Use this snippet and cycle through your domain controllers by changing the $DC variable.
 ```powershell
-Get-ADDomain | Select-Object -ExpandProperty PDCEmulator
+$Minutes = 30 #how far back to include bad password counts
+$CurrDate = (Get-Date).AddMinutes(-$minutes).ToFileTime()
+$DC = DCSERVER01  #replace with your DC name
+
+Get-ADUser -Filter "(badPwdCount -ge '1') -AND (badPasswordTime -ge $CurrDate)" -Properties badPwdCount,badPasswordTime -Server $DC `
+ | Select Name,badPwdCount,@{n='badPasswordTime';e={[DateTime]::FromFileTime($_.badPasswordTime)}} | Sort badPasswordTime -Descending
 ```
 If you get an error about Active Directory Web Services, you may need to either install or enable and start the ADWS service on the DC that holds the PDC role.
+
+![](./ADWS_example.png)
+
 
 
