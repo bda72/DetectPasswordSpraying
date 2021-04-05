@@ -65,6 +65,8 @@ Will this script always detect a password spraying attempt? Of course not. Nothi
 
 Also, setting a threshold becomes much more difficult at a larger company, especially if you have a culture that has zero tolerance for an occasional false alarm (and we all hate false alarms). For example, if an average sample of the quantity of users with a current value in badPwdCount looks like 3, 8, 16, 12, 6, etc. in each 5-minute check and your threshold is set to 20, you could easily miss a small password spraying attack against only your C-level employees.
 
+I would argue that a solution such as this likely has little value for a very large company. If you have 50,000 users, you will alwasy have a decent amount of true bad passwords. Your threshold would need to be set so high that a password sparaying attempt could easily not be detected.
+
 # Incident response
 
 You just got an alert email that 100 users have a badPwdCount of at least '1' within the past five minutes. The email body and CSV file show most or all the badPasswordTime attributes are within a few seconds of each other. Unless you have some automated process that is failing, that is almost certainly password spraying.
