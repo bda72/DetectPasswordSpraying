@@ -35,7 +35,7 @@ Results are written to a CSV file and the count is added to a text file that rol
 
 ![](./log_example.png)
 
-If your defined threshold is crossed, an email alert will be sent. The CSV file of the data contained in the email body will be attached as well as a log of that day's counts for reference. In the example below, the threshold was lowered to '1' but, based on the values of the badPasswordTime attributes, this would likely not indicate password spraying. We would expect the times to be within a few seconds of each other.
+If your defined threshold is crossed, an email alert will be sent. The CSV file of the data contained in the email body will be attached as well as a log of that day's counts for reference. In the example below, the threshold was lowered to '1' but, based on the values of the badPasswordTime attributes, this would likely not indicate password spraying.
 
 ![](./email_example.png)
 
@@ -61,15 +61,15 @@ You may wish to schedule two copies of the script with different thresholds. Let
 
 # Caveats
 
-Will this script always detect a password spraying attempt? Of course not. Nothing is foolproof, including an expensive SIEM product. This detection method could be avoided by an attacker targeting a low number of user accounts, only during business hours (when your threshold would be set higher) and spreading each attempt out a few minutes apart at random intervals.
+Will this script always detect a password spraying attempt? Nothing is foolproof, including an expensive SIEM product. This detection method could be avoided by an attacker targeting a low number of user accounts, only during business hours (when your threshold would be set higher) and spreading each attempt out a few minutes apart at random intervals.
 
-Also, setting a threshold becomes much more difficult at a larger company, especially if you have a culture that has zero tolerance for an occasional false alarm (and we all hate false alarms). For example, if an average sample of the quantity of users with a current value in badPwdCount looks like 3, 8, 16, 12, 6, etc. in each 5-minute check and your threshold is set to 20, you could easily miss a small password spraying attack against only your C-level employees.
+Also, setting a threshold becomes much more difficult at a larger company, especially if you have a culture that has little tolerance for an occasional false alarm (and we all hate false alarms). For example, if an average sample of the quantity of users with a current value in badPwdCount looks like 3, 8, 16, 12, 6, etc. in each 5-minute check and your threshold is set to 20, you could easily miss a small password spraying attack against only your C-level employees.
 
-I would argue that a solution such as this likely has little value for a very large company. If you have 50,000 users, you will alwasy have a decent amount of true bad passwords. Your threshold would need to be set so high that a password spraying attempt could easily not be detected.
+I would argue that a solution such as this likely has little value for a very large company. If you have 50,000 users, you will alwasy have a decent amount of true bad passwords. Your threshold would be set high enough that a password spraying attempt could easily not be detected.
 
 # Incident response
 
-You just got an alert email that 100 users have a badPwdCount of at least '1' within the past five minutes. The email body and CSV file show most or all the badPasswordTime attributes are within a few seconds of each other. Unless you have some automated process that is failing, that is almost certainly password spraying.
+You just got an alert email that 100 users have a badPwdCount of at least '1' within the past five minutes. The email body and CSV file show most or all the badPasswordTime attributes are within a few seconds of each other. 100 Users didn't enter a wrong password within seconds of each other so that is almost certainly password spraying.
 
 What are the next steps? I can point you in the right direction, but this topic is beyond the scope of this document. Every domain is different regarding audit settings, GPOs, event log sizes, commercial tools, custom in-house scripts/apps, etc. and every admin has a different level of experience and skills.
 
@@ -80,6 +80,10 @@ Based on badPasswordTime, you need to find the events in the security log to get
 My advice is to think about what you can do to gather this info before an incident happens. There is nothing more frustrating than knowing you were attacked but not being able to gather any details in an investigation. Look at one of the 'good' CSV files with one or maybe a few entries. Can you find those events on the PDC Emulator to get the source? If the threshold is tripped at 10PM on Friday, is your security log size large enough that the events will still be there Monday morning? If the source is an ADFS or Exchange server, do you have auditing enabled on those servers and the event log sized properly?
 
 The most efficient solution is to proactively collect the logs using event log collection solution, a SIEM or a low-cost commercial product like ADAudit Plus. The logs will be there waiting for you and they will be searchable. Another benefit is being able to quickly search for any successful logons at the exact same time from the same source(s), indicating an account was likely compromised. 
+
+# Results
+
+The most important question: does it actually detect password spraying? Yes. It has been used successfully in production and during pentests.
 
 # Troubleshooting
 
